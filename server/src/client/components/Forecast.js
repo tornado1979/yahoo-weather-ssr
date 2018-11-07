@@ -7,11 +7,11 @@ export const Forecast = ({ forecast }) => {
       <div className="day">{forecast.day}</div>
       <div className="temp-container">
         <div className="low-temp">
-          <span style={{ fontWeight: 600 }}>L</span>
+          <span>L</span>
           {forecast.low}
         </div>
         <div className="high-temp">
-          <span style={{ fontWeight: 600 }}>H</span>
+          <span>H</span>
           { forecast.high }
         </div>
       </div>
