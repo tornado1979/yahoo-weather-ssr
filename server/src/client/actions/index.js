@@ -1,5 +1,15 @@
 import axios from 'axios'
-import { FETCH_DATA } from './types'
+import {
+  FETCH_DATA,
+  ADD_CITY,
+} from './types'
+
+export const addCity = (city) => {
+  return {
+    payload: city,
+    type: ADD_CITY,
+  }
+}
 
 export const fetchData = (city = 'San Diego') => async dispatch => {
   const API_URL = 'https://query.yahooapis.com/v1/public/yql?q='
