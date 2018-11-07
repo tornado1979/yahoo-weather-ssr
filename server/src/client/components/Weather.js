@@ -8,6 +8,7 @@ import {
 import {
   getWeather,
   getCities,
+  isLoading,
 } from '../selectors'
 import { Forecast } from './Forecast'
 import Cities from './Cities'
@@ -127,19 +128,26 @@ class Weather extends Component {
   render() {
     const {
       weather,
+      isFetching,
     } = this.props
 
     const dataLoaded = !!Object.keys(weather).length
 
     return (
       <div className="weather-container fade-in">
+        {/* 1. data finished loading and weather data DO exist */}
         {dataLoaded && (
           <div>
             {this.renderWeather()}
             <Form handleClick={(event) => this.addCity(event)} />
           </div>)
         }
-        {!dataLoaded && <div className="loader">Data is loading...</div>}
+        {/* 2. data loading */}
+        {isFetching && <div className="loader">Data is loading...</div>}
+
+        {/* 3. data is not loading and weather data NOT exist */}
+        {!isFetching && !dataLoaded && <div className="loader">No data for that City :(</div>}
+
       </div>
     )
   }
@@ -148,6 +156,7 @@ class Weather extends Component {
 const mapStateToProps = (state) => {
   return {
     cities: getCities(state),
+    isFetching: isLoading(state),
     weather: getWeather(state),
   }
 }
@@ -160,6 +169,7 @@ Weather.propTypes = {
   addCity: propTypes.func.isRequired,
   cities: propTypes.arrayOf(propTypes.oneOfType([propTypes.string])).isRequired,
   fetchData: propTypes.func.isRequired,
+  isFetching: propTypes.bool.isRequired,
   weather: propTypes.shape().isRequired,
 }
 
