@@ -7,12 +7,13 @@ import {
   getCities,
 } from '../selectors'
 import { Forecast } from './Forecast'
+import Cities from './Cities'
 
 class Weather extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      activeCity: '',
+      activeCity: 'San Diego, CA',
       indx: 1,
     }
   }
@@ -45,7 +46,12 @@ class Weather extends Component {
   renderWeather() {
     const {
       weather,
+      cities,
     } = this.props
+
+    const {
+      activeCity,
+    } = this.state
 
     if (Object.keys(weather).length) {
       const {
@@ -73,8 +79,11 @@ class Weather extends Component {
           </ul>,
           <div className="bottom" key="3">
             {weather.title}
-            <span style={{ fontWeight: 600, padding: '0 0.5rem', color: '#fff' }}>|</span>
+            <span style={{ color: '#fff', fontWeight: 600, padding: '0 0.5rem' }}>|</span>
             {weather.lastBuildDate}
+          </div>,
+          <div className="cities" key="4">
+            <Cities activeCity={activeCity} cities={cities} />
           </div>,
         ]
       )
@@ -93,7 +102,7 @@ class Weather extends Component {
 
     return (
       <div className="weather-container fade-in">
-        {dataLoaded && this.renderWeather() }
+        {dataLoaded && this.renderWeather()}
         {!dataLoaded && <div className="loader">Data is loading...</div>}
       </div>
     )
