@@ -1,5 +1,6 @@
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const eslintFormatter = require('react-dev-utils/eslintFormatter');
 
 module.exports = {
 
@@ -13,6 +14,22 @@ module.exports = {
   },
   module: {
     rules: [
+       // First, run the linter.
+      // It's important to do this before Babel processes the JS.
+      {
+        test: /\.(js|jsx|mjs)$/,
+        enforce: 'pre',
+        use: [
+          {
+            options: {
+              formatter: eslintFormatter,
+              eslintPath: require.resolve('eslint'),
+            },
+            loader: require.resolve('eslint-loader'),
+          },
+        ],
+        include: path.appSrc,
+      },
       {
         test: /\.js?$/,
         loader: 'babel-loader',
@@ -66,11 +83,11 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [{
-            loader: "style-loader" // creates style nodes from JS strings
+          loader: "style-loader" // creates style nodes from JS strings
         }, {
-            loader: "css-loader" // translates CSS into CommonJS
+          loader: "css-loader" // translates CSS into CommonJS
         }, {
-            loader: "sass-loader" // compiles Sass to CSS
+          loader: "sass-loader" // compiles Sass to CSS
         }]
       },
     ]
