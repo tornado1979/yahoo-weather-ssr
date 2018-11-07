@@ -1,20 +1,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import propTypes from 'prop-types'
-import { fetchData } from '../actions'
+import {
+  fetchData,
+  addCity,
+} from '../actions'
 import {
   getWeather,
   getCities,
 } from '../selectors'
 import { Forecast } from './Forecast'
 import Cities from './Cities'
+import { Form } from './Form'
 
 class Weather extends Component {
   constructor(props) {
     super(props)
+    // init local state
     this.state = {
       activeCity: 'San Diego, CA',
-      indx: 1,
+      citiesCount: 3,
+      indx: 0,
     }
   }
 
@@ -26,15 +32,40 @@ class Weather extends Component {
     getData()
 
     // set 5secs interval between the cities weather information
-    const { cities } = this.props
-
     setInterval(() => {
+      // reset index when exceeds cities count
+      const index = this.state.indx + 1 > this.state.citiesCount-1 ? 0 : this.state.indx + 1 // eslint-disable-line
+
       this.setState({
-        indx: this.state.indx + 1, // eslint-disable-line
-        activeCity: cities[this.state.indx%cities.length],// eslint-disable-line
+        indx: index, // eslint-disable-line
+        activeCity: this.props.cities[index%this.state.citiesCount],// eslint-disable-line
       })
-      getData(this.state.activeCity)// eslint-disable-line
+
+      // fetch weather data
+      getData(this.props.cities[index%this.state.citiesCount])// eslint-disable-line
     }, 5000)
+  }
+
+  componentDidUpdate(prevProps) {
+    // update local state, if the user has added new City
+    const {
+      cities,
+    } = this.props
+
+    // https://reactjs.org/docs/react-component.html
+    // It s not the best method to update localstate into here, so i update it very cosiously only
+    // if cities is updated
+    if (prevProps.cities.length < cities.length) {
+      this.setState((state) => ({ citiesCount: state.citiesCount + 1 })) // eslint-disable-line
+    }
+  }
+
+  addCity(value) {
+    const {
+      addCity: addNewCity,
+    } = this.props
+
+    addNewCity(value)
   }
 
   // render forecast days
@@ -102,7 +133,12 @@ class Weather extends Component {
 
     return (
       <div className="weather-container fade-in">
-        {dataLoaded && this.renderWeather()}
+        {dataLoaded && (
+          <div>
+            {this.renderWeather()}
+            <Form handleClick={(event) => this.addCity(event)} />
+          </div>)
+        }
         {!dataLoaded && <div className="loader">Data is loading...</div>}
       </div>
     )
@@ -121,6 +157,7 @@ const loadData = (store) => {
 }
 
 Weather.propTypes = {
+  addCity: propTypes.func.isRequired,
   cities: propTypes.arrayOf(propTypes.oneOfType([propTypes.string])).isRequired,
   fetchData: propTypes.func.isRequired,
   weather: propTypes.shape().isRequired,
@@ -128,4 +165,4 @@ Weather.propTypes = {
 
 export { loadData }
 
-export default connect(mapStateToProps, { fetchData })(Weather)
+export default connect(mapStateToProps, { addCity, fetchData })(Weather)
