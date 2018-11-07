@@ -6,7 +6,11 @@ export const Form = ({ handleClick }) => {
     event.preventDefault()
     const form = event.target
     const input = form.getElementsByTagName('input')[0]
-    handleClick(input.value)
+
+    if (input.value.trim() !== '') {
+      handleClick(input.value)
+      input.value = ''
+    }
   }
 
   return (
