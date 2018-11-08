@@ -17,10 +17,12 @@ app.get('*', (req, res) => {
   })
 
   Promise.all(promises).then(() => {
-    res.send(renderer(req, store))
+    const content = renderer(req, store)
+
+    return res.send(content)
   })
 })
 
 app.listen(3000, () => {
-  console.log('Linstening on 3000 PORT')
+  console.log('Linstening on 3000 PORT') // eslint-disable-line
 })
