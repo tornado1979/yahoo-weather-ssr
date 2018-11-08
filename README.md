@@ -111,3 +111,5 @@ In order to run localhost we could:
 
 * add unit tests
 * add left/right arrows so to handle the displayed cities.
+* prohibit use add double city
+* live background, different for each displayed city
