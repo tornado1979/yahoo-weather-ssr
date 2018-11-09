@@ -1,8 +1,10 @@
 
 ## Table of Contents
+- [Table of Contents](#table-of-contents)
 - [About](#about)
 - [Workflow](#workflow)
-- [Folder Structure](#folder-structure)
+- [devtools](#devtools)
+- [Folder structure](#folder-structure)
 - [Run local](#run-local)
 - [Todo](#todo)
 
@@ -10,7 +12,7 @@
 ## About
 * Fullstack react+redux application that uses SSR to render a weather rotation component. The weather component displays data from different Cities, based on data fetched from yahooapis.com.
 
-[a quick visual of the web-app](readme_imgs/yahoo-component-rotation.gif)
+![a quick visual of the web-app](readme_imgs/yahoo-component-rotation.gif)
 
 
 - Functionalities:
@@ -35,7 +37,32 @@
 * After the first render on server, the rest calls to the API are made from the client.
 * The init state that sended from server is like so:
 
-[INITIAL_STATE on client](readme_imgs/init_state.png)
+![INITIAL_STATE on client](readme_imgs/init_state.png)
+
+## devtools
+
+- Redux devtools are enabled and all the actions and the current state are logged and displayed, in realime.
+- Inside `client.js` we enable devtools and pass it to the store, like so:
+
+```javascript
+const enhancers = [applyMiddleware(thunk)]
+
+// If Redux DevTools Extension is installed use it, otherwise use Redux compose
+/* eslint-disable no-underscore-dangle */
+const composeEnhancers = process.env.NODE_ENV !== 'production'
+    && typeof window === 'object'
+    && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose
+/* eslint-enable */
+
+const store = createStore(
+  reducers,
+  window.INITIAL_STATE,
+  composeEnhancers(...enhancers),
+)
+```
+
+![redux dev tools](readme_imgs/dev-tools.png)
 
 ## Folder structure
 
