@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component Forecast renders correctly 1`] = `
+<div
+  className="forecast-item"
+>
+  <div
+    className="day"
+  >
+    Monday
+  </div>
+  <div
+    className="temp-container"
+  >
+    <div
+      className="low-temp"
+    >
+      <span>
+        L
+      </span>
+      20
+    </div>
+    <div
+      className="high-temp"
+    >
+      <span>
+        H
+      </span>
+      30
+    </div>
+  </div>
+</div>
+`;

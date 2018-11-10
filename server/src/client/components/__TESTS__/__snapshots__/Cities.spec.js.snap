@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component Cities renders correctly 1`] = `
+<ul>
+  <li
+    className="active"
+  >
+    Athens
+  </li>
+  <li
+    className="normal"
+  >
+    Thessaloniki
+  </li>
+</ul>
+`;

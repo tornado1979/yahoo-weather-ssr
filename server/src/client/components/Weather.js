@@ -14,7 +14,7 @@ import { Forecast } from './Forecast'
 import Cities from './Cities'
 import { Form } from './Form'
 
-class Weather extends Component {
+export class Weather extends Component {
   constructor(props) {
     super(props)
     // init local state

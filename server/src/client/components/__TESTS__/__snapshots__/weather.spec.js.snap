@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component Weather renders correctly 1`] = `
+<div
+  className="weather-container fade-in"
+>
+  <div
+    className="loader"
+  >
+    No data for that City :(
+  </div>
+</div>
+`;

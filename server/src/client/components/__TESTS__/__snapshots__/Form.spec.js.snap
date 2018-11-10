@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component Form renders correctly 1`] = `
+<div
+  className="form-container"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <input
+      placeholder="type a city/zipcode"
+      type="text"
+    />
+    <button
+      className="btn"
+      type="submit"
+    >
+      Add city
+    </button>
+  </form>
+</div>
+`;
