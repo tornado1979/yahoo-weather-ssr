@@ -21,9 +21,15 @@ const composeEnhancers = process.env.NODE_ENV !== 'production'
   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose
 /* eslint-enable */
 
+// get state from global variable injected into the server generated html
+const initialState = window.INITIAL_STATE
+
+// allow the passed state to be grarbage-collected
+delete window.INITIAL_STATE
+
 const store = createStore(
   reducers,
-  window.INITIAL_STATE,
+  initialState,
   composeEnhancers(...enhancers),
 )
 
