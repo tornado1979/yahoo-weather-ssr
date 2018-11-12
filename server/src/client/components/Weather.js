@@ -136,7 +136,7 @@ export class Weather extends Component {
     }
 
     // An error occured(during the API request).
-    if (!isFetching && Object.keys(error).length) {
+    if (!isFetching && error && Object.keys(error).length) {
       return this.loading(`${error.statusText}: ${error.data.error.description}`)
     }
 

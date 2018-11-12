@@ -32,9 +32,24 @@ describe('actions', () => {
   })
 
   it('should create an action to data fail', () => {
-    const err = 'an error'
+    const err = {
+      response: {
+        data: {
+          error: 'error msg',
+        },
+        status: 400,
+        statusText: 'Bad request',
+      },
+    }
+
     const action = {
-      payload: err,
+      error: {
+        data: {
+          error: 'error msg',
+        },
+        status: 400,
+        statusText: 'Bad request',
+      },
       type: types.RECEIVE_DATA_FAIL,
     }
     expect(error(err)).toEqual(action)

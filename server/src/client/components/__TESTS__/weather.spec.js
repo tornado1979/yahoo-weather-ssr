@@ -10,6 +10,7 @@ describe('Component Weather', () => {
     const fetchData = () => console.log('fetch data')
     const isFetching = false
     const weather = {}
+    const error = {}
 
     const tree = renderer
       .create(<Weather
@@ -18,6 +19,7 @@ describe('Component Weather', () => {
         fetchData={fetchData}
         isFetching={isFetching}
         weather={weather}
+        error={error}
       />)
     expect(tree).toMatchSnapshot()
   })
