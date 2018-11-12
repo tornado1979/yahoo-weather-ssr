@@ -13,7 +13,7 @@ export const addCity = (city) => {
   }
 }
 
-const requestData = () => {
+export const requestData = () => {
   return {
     payload: {
       isFetching: true,
