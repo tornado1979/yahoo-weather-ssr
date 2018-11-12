@@ -8,6 +8,7 @@ import {
 import {
   getWeather,
   getCities,
+  getError,
   isLoading,
 } from '../selectors'
 import { Forecast } from './Forecast'
@@ -72,6 +73,10 @@ export class Weather extends Component {
     addNewCity(value)
   }
 
+  loading(msg) {
+    return <div className="loader" key="6">{msg}</div>
+  }
+
   // render forecast days
   renderForecast(forecastArray) {
     return forecastArray.map(day => <li key={day.date}><Forecast forecast={day} /></li>)
@@ -82,12 +87,15 @@ export class Weather extends Component {
     const {
       weather,
       cities,
+      error,
+      isFetching,
     } = this.props
 
     const {
       activeCity,
     } = this.state
 
+    // weather has data
     if (Object.keys(weather).length) {
       const {
         item,
@@ -95,6 +103,7 @@ export class Weather extends Component {
         units,
       } = weather
 
+      const loading = this.loading('Data is loading...')
       const forecast = this.renderForecast(item.forecast)
 
       return (
@@ -120,37 +129,25 @@ export class Weather extends Component {
           <div className="cities" key="4">
             <Cities activeCity={activeCity} cities={cities} />
           </div>,
+          <Form handleClick={(event) => this.addCity(event)} key="5" />,
+          (isFetching && loading),
         ]
       )
     }
 
-    // in case something is wrong
-    return <div>No Data. Something gone wrong :(</div>
+    // An error occured(during the API request).
+    if (!isFetching && Object.keys(error).length) {
+      return this.loading(`${error.statusText}: ${error.data.error.description}`)
+    }
+
+    // There are no data for that City
+    return this.loading('No data for that City :(')
   }
 
   render() {
-    const {
-      weather,
-      isFetching,
-    } = this.props
-
-    const dataLoaded = !!Object.keys(weather).length
-
     return (
       <div className="weather-container fade-in">
-        {/* 1. data finished loading and weather data DO exist */}
-        {dataLoaded && (
-          <div>
-            {this.renderWeather()}
-            <Form handleClick={(event) => this.addCity(event)} />
-          </div>)
-        }
-        {/* 2. data loading */}
-        {isFetching && <div className="loader">Data is loading...</div>}
-
-        {/* 3. data is not loading and weather data NOT exist */}
-        {!isFetching && !dataLoaded && <div className="loader">No data for that City :(</div>}
-
+        {this.renderWeather()}
       </div>
     )
   }
@@ -159,6 +156,7 @@ export class Weather extends Component {
 const mapStateToProps = (state) => {
   return {
     cities: getCities(state),
+    error: getError(state),
     isFetching: isLoading(state),
     weather: getWeather(state),
   }
@@ -171,6 +169,7 @@ const loadData = (store) => {
 Weather.propTypes = {
   addCity: propTypes.func.isRequired,
   cities: propTypes.arrayOf(propTypes.oneOfType([propTypes.string])).isRequired,
+  error: propTypes.shape().isRequired, // analyse the shape schema
   fetchData: propTypes.func.isRequired,
   isFetching: propTypes.bool.isRequired,
   weather: propTypes.shape().isRequired,
