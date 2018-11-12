@@ -24,12 +24,16 @@ export const requestData = () => {
 
 export const error = (err) => {
   return {
-    payload: err,
+    error: {
+      data: err.response.data,
+      status: err.response.status,
+      statusText: err.response.statusText,
+    },
     type: RECEIVE_DATA_FAIL,
   }
 }
 
-export const fetchData = (city = 'San Diego') => async dispatch => {
+export const fetchData = (city = 'San Diego') => async (dispatch) => {
   const API_URL = 'https://query.yahooapis.com/v1/public/yql?q='
   const query = `select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='${city}')`
   const format = '&format=json'

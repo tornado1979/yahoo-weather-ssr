@@ -18,7 +18,8 @@ export default (state = initState, action) => {
       }
     case RECEIVE_DATA_FAIL:
       return {
-        ...state,
+        error: action.error,
+        isFetching: false,
       }
     case FETCH_DATA:
       return {
