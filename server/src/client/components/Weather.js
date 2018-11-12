@@ -28,9 +28,12 @@ export class Weather extends Component {
   componentDidMount() {
     const {
       fetchData: getData,
+      weather,
     } = this.props
 
-    getData()
+    if (!weather.data) {
+      getData()
+    }
 
     // set 5secs interval between the cities weather information
     setInterval(() => {
