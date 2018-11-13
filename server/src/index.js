@@ -17,7 +17,8 @@ app.get('*', (req, res) => {
   })
 
   Promise.all(promises).then(() => {
-    const content = renderer(req, store)
+    const context = {}
+    const content = renderer(req, store, context)
 
     return res.send(content)
   })
